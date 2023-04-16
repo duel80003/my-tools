@@ -9,6 +9,7 @@ import (
 
 const (
 	DebugLevel = "debug"
+	ErrorLevel = "error"
 )
 
 var (
@@ -35,4 +36,18 @@ func LogInit() {
 		Logger.SetLevel(logrus.DebugLevel)
 	}
 	Logger.SetReportCaller(true)
+}
+
+func LogInitWithLevel(level string) {
+	Logger.SetFormatter(&MyTextFormatter{})
+	Logger.Out = os.Stdout
+	Logger.SetReportCaller(true)
+	switch level {
+	case DebugLevel:
+		Logger.SetLevel(logrus.DebugLevel)
+	case ErrorLevel:
+		Logger.SetLevel(logrus.ErrorLevel)
+	default:
+		Logger.SetLevel(logrus.InfoLevel)
+	}
 }
